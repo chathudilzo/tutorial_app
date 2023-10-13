@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "877400107957",
+    "project_id": "tutorialapp-20dca",
+    "storage_bucket": "tutorialapp-20dca.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:877400107957:android:381e1eb5cc92b4187c07fc",
+        "android_client_info": {
+          "package_name": "com.example.tutorial_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDdXxSPPoikoXPg4PT78oEGWoU7Bc2rhoM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,20 +1,60 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tutorial_app/components/my_button.dart';
 import 'package:tutorial_app/components/my_textfield.dart';
 import 'package:tutorial_app/components/square_tile.dart';
 
-class LoginPage extends StatelessWidget {
-   LoginPage({super.key});
+class LoginPage extends StatefulWidget {
+   LoginPage({super.key, required this.onTap});
 
+   final Function()? onTap;
 
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
   //Text Editing controllers
-final userNameController=TextEditingController();
+final emailController=TextEditingController();
+
 final passwordController=TextEditingController();
 
-
-void signUserIn(){
-
+void wrongCredPop(bool? error){
+  showDialog(context: context, builder: (context){
+    return AlertDialog(
+      icon: Icon(Icons.logout_sharp),
+      title:error==null? Text('Invalid Email or Password',style: TextStyle(fontSize: 12),): Text('Something went wrong!',style: TextStyle(fontSize: 12),),
+    );
+  });
 }
+
+
+  void signUserIn()async{
+    showDialog(context: context, builder: (cotext){
+      return Center(child: CircularProgressIndicator());
+    });
+
+    try{
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: emailController.text,
+      password: passwordController.text);
+      Navigator.pop(context);
+
+    }on FirebaseAuthException catch(e){
+      if(e.code=='INVALID_LOGIN_CREDENTIALS'){
+        wrongCredPop(null);
+        print('Invalid email or password');
+      
+      }else{
+        wrongCredPop(true);
+      }
+    }
+
+  }
+  
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +76,7 @@ void signUserIn(){
                 ,
                 const SizedBox(height: 50,),
                 MyTextField(
-                  controller: userNameController,
+                  controller: emailController,
                   hintText: 'Username',
                   obscureText: false,
                 ),
@@ -59,6 +99,7 @@ void signUserIn(){
                 const SizedBox(height: 25,),
                 MyButton(
                   onTap: signUserIn,
+                  text: 'Sign In',
                 ),SizedBox(height: 50,),
                 Row(
                   children: [
@@ -88,7 +129,9 @@ void signUserIn(){
                   children: [
                     Text('Not a member?',style: TextStyle(color: Colors.grey[700]),),
                     SizedBox(width: 4,),
-                    Text('Register now!',style: TextStyle(color: Colors.blueAccent,fontWeight: FontWeight.bold),)
+                    GestureDetector(
+                      onTap: widget.onTap,
+                      child: Text('Register now!',style: TextStyle(color: Colors.blueAccent,fontWeight: FontWeight.bold),))
                   ],
                 )
               ],

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:tutorial_app/components/my_button.dart';
 import 'package:tutorial_app/components/my_textfield.dart';
 import 'package:tutorial_app/components/square_tile.dart';
+import 'package:tutorial_app/services/auth_service.dart';
 
 class LoginPage extends StatefulWidget {
    LoginPage({super.key, required this.onTap});
@@ -118,9 +119,11 @@ void wrongCredPop(bool? error){
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                     SquareTile(imagePath: 'assets/google.png'),
+                     SquareTile(imagePath: 'assets/google.png',onTap: () => AuthService().signInWithGoogle(),),
                      SizedBox(width: 10,),
-                    SquareTile(imagePath: 'assets/apple.png'),
+                    SquareTile(imagePath: 'assets/apple.png',onTap: () {
+                      
+                    },),
                    
                   ],
                 ),SizedBox(height: 25,),

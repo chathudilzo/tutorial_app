@@ -22,59 +22,70 @@ void signUserOut()async{
     double height=MediaQuery.of(context).size.height;
 
     return Scaffold(
+      backgroundColor: Color.fromARGB(26, 165, 164, 164),
       appBar: AppBar(actions: [IconButton(onPressed: signUserOut, icon: Icon(Icons.logout))],),
       body:Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Icon(Icons.book_rounded,color: Color.fromARGB(255, 128, 223, 21),),
-                Text('Story World',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
-              ],
-            ),
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10)
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: SizedBox(
+                  width: 150,
+                  height: 150,
+                  child: Image(image: AssetImage('assets/logo.jpeg')),
+                ),
               ),
-              child: CarouselSlider(items: imagePaths.map((i){
-                return Builder(builder: (BuildContext context){
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      width: width*0.8,
-                      height: 200,
-                      decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                            blurRadius: 7,
-                            
-                          )
-                        ],
-                        borderRadius: BorderRadius.circular(10),
-                        image: DecorationImage(image: AssetImage(i),fit:BoxFit.cover),
-                        
+        
+              Row(
+                children: [
+                  Icon(Icons.book_rounded,color: Color.fromARGB(255, 128, 223, 21),),
+                  Text('Story World',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+                ],
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10)
+                ),
+                child: CarouselSlider(items: imagePaths.map((i){
+                  return Builder(builder: (BuildContext context){
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        width: width*0.8,
+                        height: 200,
+                        decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                              blurRadius: 7,
+                              
+                            )
+                          ],
+                          borderRadius: BorderRadius.circular(10),
+                          image: DecorationImage(image: AssetImage(i),fit:BoxFit.cover),
+                          
+                        ),
+                        child: Image(image:AssetImage(i))
                       ),
-                      child: Image(image:AssetImage(i))
-                    ),
-                  );
-                },);
-              }).toList(), 
-              options: CarouselOptions(
-                autoPlay: true,
-                height: 200)),
-            ),
-            SizedBox(height: 10,),
-            Text('Take a Quiz',style: TextStyle(color: Colors.black,fontSize: 20,fontWeight: FontWeight.bold),),
-            Column(
-              children: [
-                QuizButton(name: 'Science',color: Color.fromARGB(255, 138, 103, 8),),
-                QuizButton(name:'History',color: Color.fromARGB(255, 9, 190, 64),),
-                QuizButton(name:'English',color: Color.fromARGB(255, 7, 164, 192),)
-              ],
-            )
-          ],
+                    );
+                  },);
+                }).toList(), 
+                options: CarouselOptions(
+                  autoPlay: true,
+                  height: 200)),
+              ),
+              SizedBox(height: 10,),
+              Text('Take a Quiz',style: TextStyle(color: Colors.black,fontSize: 20,fontWeight: FontWeight.bold),),
+              Column(
+                children: [
+                  QuizButton(name: 'Science',color: Color.fromARGB(255, 25, 197, 240),),
+                  QuizButton(name:'History',color: Color.fromARGB(255, 25, 197, 240),),
+                  QuizButton(name:'English',color: Color.fromARGB(255, 25, 197, 240),)
+                ],
+              )
+            ],
+          ),
         ),
       )
     );

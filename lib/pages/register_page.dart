@@ -1,8 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:tutorial_app/components/my_button.dart';
 import 'package:tutorial_app/components/my_textfield.dart';
 import 'package:tutorial_app/components/square_tile.dart';
+import 'package:tutorial_app/controllers/user_controller.dart';
 import 'package:tutorial_app/services/auth_service.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -17,6 +19,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final emailController=TextEditingController();
   final passwordController=TextEditingController();
   final confirmPasswordController=TextEditingController();
+  final ProfileController profileController=Get.find();
 
 void errorPop(String text){
   showDialog(context: context, builder: (context){
@@ -38,10 +41,15 @@ void signUserUp()async{
        showDialog(context: context, builder: (context){
           return Center(child: CircularProgressIndicator(),);
         });
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      final result=await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: emailController.text,
          password: passwordController.text
          );
+
+         if (result.user!=null){
+          final user=result.user;
+          profileController.createUserProfile(user!.uid, user.displayName.toString());
+         }
 
          Navigator.pop(context);
     }

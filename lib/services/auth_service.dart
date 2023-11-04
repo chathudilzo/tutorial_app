@@ -2,6 +2,7 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:tutorial_app/controllers/user_controller.dart';
 
 class AuthService{
 
@@ -16,7 +17,17 @@ class AuthService{
       idToken: gAuth.idToken
     );
 
-    return await FirebaseAuth.instance.signInWithCredential(credential);
+     try{
+      final result=await FirebaseAuth.instance.signInWithCredential(credential);
+
+      if(result.user!=null){
+        final user=result.user;
+
+        ProfileController().createUserProfile(user!.uid, user.displayName.toString());
+      }
+     }catch(error){
+      print(error.toString());
+     }
 
   }
 }

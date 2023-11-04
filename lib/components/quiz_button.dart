@@ -25,7 +25,7 @@ final TutorialController tutorialController=Get.find();
     return GestureDetector(
       onTap: () {
         tutorialController.fetchData(widget.name);
-        Get.to(QuizPage());
+        Get.to(QuizPage(name:widget.name));
       },
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -33,10 +33,14 @@ final TutorialController tutorialController=Get.find();
           width: width*0.6,
           height: 45,
           decoration: BoxDecoration(
+            
             boxShadow: [BoxShadow(
               blurRadius: 3,
+              spreadRadius: 1,
+              color: Colors.blueAccent,
+              offset: Offset(3, 4)
             )],
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(20),
             color:widget.color),
           child: Center(
             child: Text(widget.name,style: TextStyle(

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
 class UserProfile{
@@ -23,62 +24,114 @@ class UserProfile{
 
 }
 
+class ProfileController extends GetxController {
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-class ProfileController extends GetxController{
-final FirebaseFirestore _firestore=FirebaseFirestore.instance;
+  RxBool isLoading = true.obs;
 
-Rx<UserProfile?> userProfile=UserProfile(
-  uid: '',
-   displayName: '',
-    marks:[],
-     lcqNumber: []
-     ).obs;
+  Rx<UserProfile?> userProfile = UserProfile(
+    uid: '',
+    displayName: '',
+    marks: [],
+    lcqNumber: [],
+  ).obs;
 
-Future<void> loadUserProfile(String uid)async{
-  final profileDoc=await _firestore.collection('profiles').doc(uid).get();
-  if (profileDoc.exists){
-    userProfile.value=UserProfile.fromMap(profileDoc.data() as Map<String,dynamic>, uid);
+void onInit(){
+  super.onInit();
+  final user=FirebaseAuth.instance.currentUser;
+  if(user!=null){
+    loadUserProfile(user.uid);
   }
 }
 
-Future<void> createUserProfile(String uid,String displayName)async{
-  try{
-    final userDocRef=_firestore.collection('profiles').doc(uid);
+void resetUserProfile() {
+    userProfile.value = UserProfile(
+      uid: '',
+      displayName: '',
+      marks: [],
+      lcqNumber: [],
+    );
+  }
 
-    final userDoc=await userDocRef.get();
-
-    if(userDoc.exists){
-      loadUserProfile(uid);
-    }else{
-      final initialUserProfile={
-        'displayName': displayName,
-        'marks': [
-          {'maths': 0},
-          {'science': 0},
-          {'english': 0},
-        ],
-        'lcqNumber': [
-          {'maths': 0},
-          {'science': 0},
-          {'english': 0},
-        ],
-      };
-      await userDocRef.set(initialUserProfile);
-
-      userProfile.value=UserProfile(uid: uid, displayName: displayName, marks: [
-          {'maths': 0},
-          {'science': 0},
-          {'english': 0},
-        ], lcqNumber:  [
-          {'maths': 0},
-          {'science': 0},
-          {'english': 0},
-        ],);
+void updateSubject(String subject)async {
+  print('USER PROFILE MARKS: '+userProfile.value!.marks.toString());
+  userProfile.value!.marks.forEach((map) {
+    print(map);
+    if (map.containsKey(subject)) {
+      print('contained');
+      map[subject] =(map[subject]??0)+ 5;
+      print(map[subject]);
     }
-  }catch(error){
-    print('Error'+error.toString());
-  }
+  });
+
+  userProfile.value!.lcqNumber.forEach((map) {
+    if (map.containsKey(subject)) {
+      map[subject] =(map[subject]??0)+ 1;
+      print(map[subject]);
+    }
+  });
+
+  final userDocRef = _firestore.collection('profiles').doc(userProfile.value!.uid);
+  await userDocRef.update({
+    'marks': userProfile.value!.marks,
+    'lcqNumber': userProfile.value!.lcqNumber,
+  });
 }
 
+  Future<void> loadUserProfile(String uid) async {
+    isLoading.value = true;
 
+    try {
+      final profileDoc = await _firestore.collection('profiles').doc(uid).get();
+      if (profileDoc.exists) {
+        userProfile.value = UserProfile.fromMap(profileDoc.data() as Map<String, dynamic>, uid);
+      } else {
+        print('User does not exist');
+      }
+    } catch (error) {
+      print('Error: $error');
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  Future<void> createUserProfile(String uid, String displayName) async {
+    isLoading.value = true;
+
+    try {
+      final userDocRef = _firestore.collection('profiles').doc(uid);
+      final userDoc = await userDocRef.get();
+
+      if (userDoc.exists) {
+        loadUserProfile(uid);
+      } else {
+        final initialUserProfile = {
+          'displayName': displayName.isNotEmpty ? displayName : 'User',
+          'marks': [
+            {'maths': 0},
+            {'science': 0},
+            {'english': 0},
+          ],
+          'lcqNumber': [
+            {'maths': 0},
+            {'science': 0},
+            {'english': 0},
+          ],
+        };
+        await userDocRef.set(initialUserProfile);
+      }
+    } catch (error) {
+      print('Error: $error');
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+
+
+
+
+  void printUser() {
+    print(userProfile.value!.displayName);
+  }
 }

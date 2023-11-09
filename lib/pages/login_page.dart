@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:tutorial_app/components/my_button.dart';
 import 'package:tutorial_app/components/my_textfield.dart';
 import 'package:tutorial_app/components/square_tile.dart';
+import 'package:tutorial_app/controllers/user_controller.dart';
 import 'package:tutorial_app/services/auth_service.dart';
 
 class LoginPage extends StatefulWidget {
@@ -36,10 +37,15 @@ void wrongCredPop(bool? error){
     });
 
     try{
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
+      final result= await FirebaseAuth.instance.signInWithEmailAndPassword(
       email: emailController.text,
       password: passwordController.text);
       Navigator.pop(context);
+
+      if(result.user!=null){
+        final user=result.user;
+        ProfileController().loadUserProfile(user!.uid);
+      }
 
     }on FirebaseAuthException catch(e){
       if(e.code=='INVALID_LOGIN_CREDENTIALS'){

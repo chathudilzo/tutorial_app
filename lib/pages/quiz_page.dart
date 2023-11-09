@@ -43,7 +43,7 @@ class _QuizPageState extends State<QuizPage> {
                 children: [
                   Text(widget.name,style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold),),
                   SizedBox(height: 30,),
-                  QuizBox()
+                  QuizBox(name: widget.name,)
                 ],
               );
             }

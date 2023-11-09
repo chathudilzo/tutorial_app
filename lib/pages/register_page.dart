@@ -38,9 +38,9 @@ void signUserUp()async{
     }else if(passwordController.text!=confirmPasswordController.text){
       errorPop('Password Miss Match');
     }else{
-       showDialog(context: context, builder: (context){
-          return Center(child: CircularProgressIndicator(),);
-        });
+      //  showDialog(context: context, builder: (context){
+      //     return Center(child: CircularProgressIndicator(),);
+      //   });
       final result=await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: emailController.text,
          password: passwordController.text
@@ -48,10 +48,12 @@ void signUserUp()async{
 
          if (result.user!=null){
           final user=result.user;
-          profileController.createUserProfile(user!.uid, user.displayName.toString());
+          print('EMAIL SIGN IN USER'+user.toString());
+          await profileController.createUserProfile(user!.uid, user.email.toString());
+          await profileController.loadUserProfile(user!.uid);
          }
 
-         Navigator.pop(context);
+         //Navigator.pop(context);
     }
       
     

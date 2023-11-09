@@ -1,8 +1,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:tutorial_app/components/quiz_button.dart';
+import 'package:tutorial_app/controllers/user_controller.dart';
+import 'package:tutorial_app/pages/profile_page.dart';
 
 class HomePage extends StatelessWidget {
    HomePage({super.key});
@@ -15,6 +18,7 @@ final user=FirebaseAuth.instance.currentUser!;
 void signUserOut()async{
   await FirebaseAuth.instance.signOut();
   await GoogleSignIn().signOut();
+  //ProfileController().resetUserProfile();
 }
   @override
   Widget build(BuildContext context) {
@@ -23,7 +27,9 @@ void signUserOut()async{
 
     return Scaffold(
       backgroundColor: Color.fromARGB(26, 165, 164, 164),
-      appBar: AppBar(actions: [IconButton(onPressed: signUserOut, icon: Icon(Icons.logout))],),
+      appBar: AppBar(actions: [IconButton(onPressed: (){
+        Get.to(ProfilePage());
+      }, icon: Icon(Icons.person)),IconButton(onPressed: signUserOut, icon: Icon(Icons.logout))],),
       body:Padding(
         padding: const EdgeInsets.all(8.0),
         child: SingleChildScrollView(

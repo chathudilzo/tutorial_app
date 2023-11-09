@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tutorial_app/controllers/user_controller.dart';
 
 import '../controllers/tutorial_controller.dart';
 
 class QuizBox extends StatefulWidget {
-  const QuizBox({super.key});
+  const QuizBox({super.key,required this.name});
+
+  final String name;
 
   @override
   State<QuizBox> createState() => _QuizBoxState();
@@ -12,6 +15,7 @@ class QuizBox extends StatefulWidget {
 
 class _QuizBoxState extends State<QuizBox> {
   final TutorialController tutorialController=Get.find();
+  final ProfileController profileController=Get.find();
   int currentIndex=0;
   TextEditingController userAnswerController=TextEditingController();
 
@@ -39,6 +43,7 @@ setState(() {
 
 void checkAnswer(){
   if (selectedAns==correctAns){
+    profileController.updateSubject('science');
     showDialog(context:context,builder:(context) {
       return AlertDialog(
         title: Text('Answer Correct'),
@@ -55,6 +60,7 @@ void checkAnswer(){
         actions: [
           TextButton(onPressed: (){
             setState(() {
+              
               currentIndex++;
               generateList();
             });

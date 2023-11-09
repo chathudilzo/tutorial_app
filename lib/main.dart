@@ -2,7 +2,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tutorial_app/controllers/tutorial_controller.dart';
+import 'package:tutorial_app/controllers/user_controller.dart';
 import 'package:tutorial_app/firebase_options.dart';
+import 'package:tutorial_app/pages/admin_home_page.dart';
+import 'package:tutorial_app/pages/admin_page.dart';
 import 'package:tutorial_app/pages/auth_page.dart';
 import 'package:tutorial_app/pages/login_page.dart';
 
@@ -20,6 +23,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
 
     Get.put(TutorialController());
+    Get.put(ProfileController());
+
     return GetMaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -27,7 +32,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: AuthPage(),
+      home: AdminHomePage(),
     );
   }
 }

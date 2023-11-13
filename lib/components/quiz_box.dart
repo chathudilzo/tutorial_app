@@ -43,7 +43,7 @@ setState(() {
 
 void checkAnswer(){
   if (selectedAns==correctAns){
-    profileController.updateSubject('science');
+    profileController.updateSubject(widget.name.toLowerCase());
     showDialog(context:context,builder:(context) {
       return AlertDialog(
         title: Text('Answer Correct'),
@@ -105,7 +105,7 @@ void checkAnswer(){
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('Q'+tutorialController.Data[currentIndex]['questionNumber']+'/ ',style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold),),
+              Text('Q'+tutorialController.Data[currentIndex]['questionNumber'].toString()+'/ ',style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold),),
               Text(tutorialController.Data[currentIndex]['question'],style: TextStyle(color: const Color.fromARGB(255, 252, 251, 249),fontSize: 25),),
               Container(
                 

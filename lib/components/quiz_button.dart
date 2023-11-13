@@ -30,21 +30,22 @@ final TutorialController tutorialController=Get.find();
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Container(
-          width: width*0.6,
-          height: 45,
+          width: 125,
+          height: 40,
           decoration: BoxDecoration(
             
             boxShadow: [BoxShadow(
-              blurRadius: 3,
-              spreadRadius: 1,
-              color: Colors.blueAccent,
-              offset: Offset(3, 4)
+              blurRadius: 1,
+              spreadRadius: 2,
+              color: Color.fromARGB(255, 56, 56, 56),
+              offset: Offset(1, 3)
             )],
             borderRadius: BorderRadius.circular(20),
             color:widget.color),
           child: Center(
             child: Text(widget.name,style: TextStyle(
-              fontSize: 18,
+              color: Colors.black,
+              fontSize: 16,
               fontWeight: FontWeight.bold
             ),),
           ),

@@ -6,25 +6,40 @@ class TutorialController extends GetxController{
 
   RxList<Map<String,dynamic>> Data=<Map<String,dynamic>>[].obs;
   RxBool isLoading=true.obs;
+  RxBool isEmpty=false.obs;
 
   Future<void> fetchData(String name)async{
     try{
-      isLoading.value=true;
-      final quarySnapshot=await _firestore.collection('tutorials').get();
-      final docs=quarySnapshot.docs.where((doc)=>doc.data()['subject']==name).toList();
 
-      if(docs.isNotEmpty){
+      Data.clear();
+      isLoading.value=true;
+      isEmpty.value=false;
+      final docRef=await _firestore.collection('tutorials').doc(name);
+
+      final docSnapshot=await docRef.get();
+
+      if(docSnapshot.exists){
         
-        Data.value=(docs.first.data()['q&a'] as List<dynamic>).map((item){
-          return Map<String,dynamic>.from(item);
-        }).toList();
+         Data.value = (docSnapshot.data()?['q&a'] as List<dynamic>)
+          .map((item) => Map<String, dynamic>.from(item))
+          .toList();
         isLoading.value=false;
         print(Data);
+        isEmpty.value=false;
 
+      }else{
+        isEmpty.value=true;
+        isLoading.value=false;
       }
+        
+        
+      
+      
     }catch(error){
+       print(error);
       isLoading.value=false;
-      print(error);
+      isEmpty.value=true;
+     
     }
   }
 
@@ -32,29 +47,31 @@ class TutorialController extends GetxController{
   Future<bool> addNewQuestion(String question,String answer,List<String> answers,String name)async{
     try{
       
-      final quarySnapshot=await _firestore.collection('tutorials').get();
-      final matchingDoc=quarySnapshot.docs.firstWhere((doc)=>doc.data()['subject']==name);
+      final collectionRef=_firestore.collection('tutorials');
+      final docRef=collectionRef.doc(name);
 
-      if(matchingDoc.exists){
-        final qAndaList=matchingDoc.data()['q&a'] as List<dynamic>;
-        final questionNumber=qAndaList.length;
+      final quizDoc=await docRef.get();
+      int questionNumber=1;
+       
+      if(!quizDoc.exists){
+        await docRef.set({});
+       
+      }else{
+        final qAndalist=quizDoc.data()?['q&a'] as List<dynamic>;
+        questionNumber=qAndalist.length+1;
+      }
 
-        final newQandA={
-        'question':question,
+      await docRef.update({'q&a':FieldValue.arrayUnion([{'question':question,
         'answer':answer,
         'answers':answers,
-        'questionNumber':questionNumber
-      };
-      await _firestore.collection('tutorials').doc(matchingDoc.id).update({'q&a':FieldValue.arrayUnion([newQandA])});
-      Get.snackbar('Success', 'Question Successfully Added!');
+        'questionNumber':questionNumber}])});
+
+      Get.snackbar('Success','Successfully added the question');
       return true;
-      }else{
-        Get.snackbar('Error', 'Document not found!');
-        return false;
-      }
-      
+
       //await _firestore.collection('tutorials').get();
     }catch(error){
+      
       Get.snackbar('Error', error.toString());
       return false;
     }

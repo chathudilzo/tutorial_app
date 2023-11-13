@@ -14,12 +14,13 @@ class ViewQuestionPage extends StatefulWidget {
 
 class _ViewQuestionPageState extends State<ViewQuestionPage> {
   TutorialController tutorialController=Get.find();
-
+ 
+  
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    tutorialController.fetchData(widget.name);
+    tutorialController.fetchData(widget.name) ;
   }
   @override
   Widget build(BuildContext context) {
@@ -28,15 +29,21 @@ class _ViewQuestionPageState extends State<ViewQuestionPage> {
       appBar: AppBar(),
       body: Obx((){
         if(tutorialController.isLoading.value){
-          return CircularProgressIndicator();
+          return Center(child: CircularProgressIndicator());
         }else{
-          return ListView.builder(
+          if(!tutorialController.isEmpty.value){
+            return ListView.builder(
             itemCount: tutorialController.Data.length,
             itemBuilder:(context,index){
               final questionData=tutorialController.Data[index];
               print(questionData);
               return QuestionItem(questionData:questionData);
             } );
+          }else{
+            return Center(
+              child: Text('No data found!',style: TextStyle(color: Colors.white),),
+            );
+          }
         }
       })
     );

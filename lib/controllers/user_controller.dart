@@ -80,6 +80,7 @@ void updateSubject(String subject)async {
     'marks': userProfile.value!.marks,
     'lcqNumber': userProfile.value!.lcqNumber,
   });
+  loadUserProfile(userProfile.value!.uid);
 }
 
   Future<void> loadUserProfile(String uid) async {

@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tutorial_app/controllers/user_controller.dart';
@@ -27,23 +29,63 @@ List<bool> isSelected=[];
   void initState() {
     // TODO: implement initState
     super.initState();
+    //profileController.loadUserProfile(profileController.userProfile.value!.uid);
+    getLastAnswerIndex();
     generateList();
 
   }
 
+getLastAnswerIndex(){
+  profileController.userProfile.value!.lcqNumber.forEach((map){
+    final name=widget.name.toLowerCase();
+      if(map.containsKey(name)){
+        setState(() {
+          currentIndex=map[name]!;
+          print('CURRENT INDEX at start'+currentIndex.toString());
+        });
+      }
+    });
+}
+
+//[{'name':'samith','marks': [{maths: 0}, {science: 25}, {english: 0}, {history: 0}, {ict: 0}, {geography: 0}]}]
+
 void generateList(){
+  print('length'+tutorialController.Data.length.toString());
+  if(currentIndex<=tutorialController.Data.length-1){
   List<bool> isselected = List.generate(
   tutorialController.Data[currentIndex]['answers'].length, (index) => false,
 );
 
+
 setState(() {
   isSelected=isselected;
 });
+  }
 }
 
 void checkAnswer(){
-  if (selectedAns==correctAns){
+  print(correctAns.length.toString() +' '+ selectedAns.length.toString());
+  print(selectedAns.trim()==correctAns.trim());
+  if (selectedAns.trim()==correctAns.trim()){
     profileController.updateSubject(widget.name.toLowerCase());
+
+
+    setState(() {
+              isSelected=[];
+            });
+              
+              getLastAnswerIndex();
+              // print('tutorials lenght'+tutorialController.Data.length.toString());
+              // print('CURRENT INDEX'+currentIndex.toString());
+              if(currentIndex<=tutorialController.Data.length-1){
+                print('CURRENT INDEX'+currentIndex.toString());
+                generateList();
+              }else{
+                Get.snackbar('End', 'No more quizes');
+              }
+setState(() {
+  
+});
     showDialog(context:context,builder:(context) {
       return AlertDialog(
         title: Text('Answer Correct'),
@@ -59,11 +101,8 @@ void checkAnswer(){
         ,
         actions: [
           TextButton(onPressed: (){
-            setState(() {
-              
-              currentIndex++;
-              generateList();
-            });
+            
+            
             Navigator.of(context).pop();
           }, child:Text('Next') )
         ],
@@ -88,11 +127,12 @@ void checkAnswer(){
   Widget build(BuildContext context) {
     double width=MediaQuery.of(context).size.width;
     double height=MediaQuery.of(context).size.height;
-    return Center(
+    return isSelected.isNotEmpty? Center(
       child: Container(
         width: width-20,
         height: height*0.6,
         decoration: BoxDecoration(
+          image: DecorationImage(image: AssetImage('assets/qzans.jpeg'),fit: BoxFit.cover),
           boxShadow: [BoxShadow(
             blurRadius: 7,
     
@@ -102,89 +142,105 @@ void checkAnswer(){
         ),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text('Q'+tutorialController.Data[currentIndex]['questionNumber'].toString()+'/ ',style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold),),
-              Text(tutorialController.Data[currentIndex]['question'],style: TextStyle(color: const Color.fromARGB(255, 252, 251, 249),fontSize: 25),),
-              Container(
-                
-                width: width,
-                height:300,
-                child: ListView.builder(
-                  itemCount: tutorialController.Data[currentIndex]['answers'].length,
-                  itemBuilder:(context,index){
-                    final item=tutorialController.Data[currentIndex]['answers'][index];
-                    if (item is String){
-                      
-                      return GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            if (isSelected[index]) {
-                              // If the item was already selected, deselect it
-                              isSelected[index] = false;
-                            } else {
-                              // If the item was not selected, select it and deselect others
-                              for (int i = 0; i < isSelected.length; i++) {
-                                isSelected[i] = false;
-                              }
-                              isSelected[index] = true;
-                            }
-
-                            correctAns=tutorialController.Data[currentIndex]['answer'];
-                            selectedAns=item;
-                          });
-                        },
-                        child: Container(decoration: BoxDecoration(
-                          boxShadow: [BoxShadow(
-                            blurRadius: 7
-
-                          )],
-                          color:isSelected[index]? Colors.grey[200]:Color.fromARGB(255, 100, 98, 94),
-                          borderRadius: BorderRadius.circular(10),
-                          border:Border.all(color: Color.fromARGB(255, 6, 122, 143),width: 2)
-                        ),
-                        margin: EdgeInsets.symmetric(vertical: 5),
-                        padding: EdgeInsets.all(10),
-                        child: Text(index.toString()+'). '+item),
-                        ),
-                      );
-                    }
-                    return Container();
-                  }),
-              ),
-
-              GestureDetector(
-                onTap: () {
-                  checkAnswer();
-                },
-                child: Container(
-                  width: 100,
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Q'+tutorialController.Data[currentIndex]['questionNumber'].toString()+'/ ',style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold),),
+                Container(
+                  
                   decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius:BorderRadius.circular(10),
-                    boxShadow: [BoxShadow(blurRadius: 7)]
-                    
+                    borderRadius: BorderRadius.circular(10),
+                    color: Color.fromARGB(221, 31, 30, 30)
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Center(
-                      child: Text('Submit',style: TextStyle(
-                        color: Colors.black,fontSize: 16,fontWeight: FontWeight.bold
-                      ),),
+                    child: Text(tutorialController.Data[currentIndex]['question'],style: TextStyle(color: const Color.fromARGB(255, 252, 251, 249),fontSize: 25),),
+                  )),
+                SizedBox(
+                  
+                  width: width,
+                  height:300,
+                  child: ListView.builder(
+
+                    itemCount: tutorialController.Data[currentIndex]['answers'].length,
+                    itemBuilder:(context,index){
+                      final item=tutorialController.Data[currentIndex]['answers'][index];
+                      if (item is String){
+                        
+                        return GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              if (isSelected[index]) {
+                                // If the item was already selected, deselect it
+                                isSelected[index] = false;
+                              } else {
+                                // If the item was not selected, select it and deselect others
+                                for (int i = 0; i < isSelected.length; i++) {
+                                  isSelected[i] = false;
+                                }
+                                isSelected[index] = true;
+                              }
+          
+                              correctAns=tutorialController.Data[currentIndex]['answer'];
+                              selectedAns=item;
+                            });
+                          },
+                          child: Container(decoration: BoxDecoration(
+                            boxShadow: [BoxShadow(
+                              blurRadius: 7
+          
+                            )],
+                            color:isSelected[index]? Colors.grey[200]:Color.fromARGB(255, 100, 98, 94),
+                            borderRadius: BorderRadius.circular(10),
+                            border:Border.all(color: Color.fromARGB(255, 6, 122, 143),width: 2)
+                          ),
+                          margin: EdgeInsets.symmetric(vertical: 5),
+                          padding: EdgeInsets.all(10),
+                          child: Text(index.toString()+'). '+item),
+                          ),
+                        );
+                      }
+                      return Container();
+                    }),
+                ),
+                SizedBox(height: 10,),
+                GestureDetector(
+                  onTap: () {
+                    checkAnswer();
+                  },
+                  child: Container(
+                    width: 100,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius:BorderRadius.circular(10),
+                      boxShadow: [BoxShadow(blurRadius: 7)]
+                      
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Center(
+                        child: Text('Submit',style: TextStyle(
+                          color: Colors.black,fontSize: 16,fontWeight: FontWeight.bold
+                        ),),
+                      ),
                     ),
                   ),
-                ),
-              )
-              
-              //text field to get the answer
-              //submit button
-              //if answer correct go to next question
-              //else show retry button to answer again
-              //view answer button to view the answer go to next question 
-            ],
+                )
+                
+                //text field to get the answer
+                //submit button
+                //if answer correct go to next question
+                //else show retry button to answer again
+                //view answer button to view the answer go to next question 
+              ],
+            ),
           ),
         ),
+      ),
+    ):Center(
+      child: Container(
+        child: Text('You have completed all the quizes in this subject!'),
       ),
     );
   }

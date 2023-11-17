@@ -23,10 +23,10 @@ class LessonButton extends StatelessWidget {
                       offset: Offset(2, 3)
                     )],
                     borderRadius: BorderRadius.circular(10),
-                    gradient: LinearGradient(colors: [Color.fromARGB(125, 90, 92, 87),Color.fromARGB(160, 208, 209, 212)])
+                    gradient: LinearGradient(colors: [Color.fromARGB(124, 17, 148, 224),Color.fromARGB(160, 208, 209, 212)])
                   ),
                   child: Center(
-                    child: Text(subject,style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
+                    child: Text(subject,style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color:Color.fromARGB(255, 32, 32, 31)),),
                   ),
                 ),
     );

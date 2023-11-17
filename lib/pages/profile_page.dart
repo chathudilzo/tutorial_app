@@ -22,59 +22,68 @@ final ProfileController profileController=Get.find();
         double height=MediaQuery.of(context).size.height;
 
     return  Scaffold(
-      appBar: AppBar(),
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+      ),
 
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-                children: [
-                  Center(
-                    child: Container(
-                      width: 100,
-                      height: 100,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(colors: [Colors.greenAccent,Colors.blueAccent]),
-                        borderRadius: BorderRadius.circular(100)
-                        
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(100),
-                          child: Image(image: AssetImage('assets/usericn.jpg'),fit: BoxFit.cover,),
-                        )
-                      ),
-                      ),
-                  ),
-                  SizedBox(height: 10,),
-                  Text(profileController.userProfile.value!.displayName,style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
-      
-                  SizedBox(height: 20,),
-      
-                  Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          MarksColumn(title: 'Maths', subject: 'maths', index: 0),
-                          MarksColumn(title: 'Science', subject: 'science', index: 1),
-                          MarksColumn(title: 'English', subject: 'english', index: 2),
-                        ],
-                      ),
-                      SizedBox(height: 20,),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          MarksColumn(title: 'History', subject: 'history', index: 3),
-                          MarksColumn(title: 'ICT', subject: 'ict', index: 4),
-                          MarksColumn(title: 'Geography', subject: 'geography', index: 5),
-                        ],
-                      ),
-                    ],
-                  )
-                ],
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(image: AssetImage('assets/marks.jpeg'),fit: BoxFit.cover)
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+                  children: [
+                    SizedBox(height: 100,),
+                    Center(
+                      child: Container(
+                        width: 100,
+                        height: 100,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(colors: [Colors.greenAccent,Colors.blueAccent]),
+                          borderRadius: BorderRadius.circular(100)
+                          
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(100),
+                            child: Image(image: AssetImage('assets/usericn.jpg'),fit: BoxFit.cover,),
+                          )
+                        ),
+                        ),
+                    ),
+                    SizedBox(height: 10,),
+                    Text(profileController.userProfile.value!.displayName,style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
         
-              ),
+                    SizedBox(height: 20,),
+        
+                    Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            MarksColumn(title: 'Maths', subject: 'maths', index: 0),
+                            MarksColumn(title: 'Science', subject: 'science', index: 1),
+                            MarksColumn(title: 'English', subject: 'english', index: 2),
+                          ],
+                        ),
+                        SizedBox(height: 20,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            MarksColumn(title: 'History', subject: 'history', index: 3),
+                            MarksColumn(title: 'ICT', subject: 'ict', index: 4),
+                            MarksColumn(title: 'Geography', subject: 'geography', index: 5),
+                          ],
+                        ),
+                      ],
+                    )
+                  ],
+          
+                ),
+        ),
       )
         
       
@@ -100,7 +109,7 @@ class _MarksColumnState extends State<MarksColumn> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text(widget.title,style: TextStyle(color: Color.fromARGB(225, 48, 47, 47),fontSize: 20,fontWeight: FontWeight.bold),),
+        Text(widget.title,style: TextStyle(color: Color.fromARGB(224, 47, 47, 48),fontSize: 20,fontWeight: FontWeight.bold),),
       
         SizedBox(height: 5,),
       
@@ -108,8 +117,8 @@ class _MarksColumnState extends State<MarksColumn> {
           height: 100,
           width: 100,
           decoration: BoxDecoration(
-            gradient: LinearGradient(colors: [const Color.fromARGB(255, 26, 25, 25),Color.fromARGB(255, 4, 90, 105)]),
-            //color:widget.subject=='maths'?Color.fromARGB(255, 31, 241, 101):widget.subject=='science'?Colors.amberAccent:Colors.blueAccent,
+            //gradient: LinearGradient(colors: [Color.fromARGB(141, 211, 233, 15),Color.fromARGB(75, 16, 179, 207)]),
+            color:Color.fromARGB(134, 67, 211, 192),
             borderRadius: BorderRadius.circular(10),
             boxShadow: [BoxShadow(
               blurRadius: 1,spreadRadius: 3,
@@ -117,7 +126,7 @@ class _MarksColumnState extends State<MarksColumn> {
             )]
           ),
           child: Center(
-            child:Text(profileController.userProfile.value!.marks[widget.index][widget.subject].toString()+'XP',style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold,color: const Color.fromARGB(255, 78, 77, 77)),),
+            child:Text(profileController.userProfile.value!.marks[widget.index][widget.subject].toString()+'XP',style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold,color: Color.fromARGB(255, 224, 219, 219)),),
           ),
         )
       ],

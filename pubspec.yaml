@@ -43,7 +43,8 @@ dependencies:
   cloud_firestore: ^4.12.2
   firebase_storage:
   image_picker:
-  
+  flutter_tts: 
+  chat_gpt_sdk: ^2.2.5
 
 dev_dependencies:
   flutter_test:

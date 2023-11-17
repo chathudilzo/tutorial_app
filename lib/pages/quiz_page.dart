@@ -20,9 +20,10 @@ class _QuizPageState extends State<QuizPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blueAccent,
+      extendBodyBehindAppBar: true,
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 124, 198, 221),
+        backgroundColor: Colors.transparent,
       ),
       body: Container(
         decoration: BoxDecoration(
@@ -41,6 +42,7 @@ class _QuizPageState extends State<QuizPage> {
             }else{
               return Column(
                 children: [
+                  SizedBox(height: 100,),
                   Text(widget.name,style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold),),
                   SizedBox(height: 30,),
                   QuizBox(name: widget.name,)

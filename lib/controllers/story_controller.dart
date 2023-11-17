@@ -10,6 +10,12 @@ class StoryController extends GetxController{
 
 
 
+
+  
+
+
+
+
   Future<void> fetchStories(String name)async{
     try{
       stories.clear();

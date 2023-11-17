@@ -182,11 +182,24 @@ void signUserOut()async{
                   },
                   child: Center(
                     child: Container(
-                      width: 50,
-                      height: 50,
+                      width: 70,
+                      height: 70,
                       decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 2,
+                          color: Color.fromARGB(255, 52, 206, 206)
+                        ),
+                        gradient: LinearGradient(colors: [Colors.orange,Color.fromARGB(255, 178, 171, 182)]),
                         color: const Color.fromARGB(255, 230, 235, 230),
-                        borderRadius: BorderRadius.circular(50)
+                        borderRadius: BorderRadius.circular(50),
+                        boxShadow: [BoxShadow(
+                          blurRadius: 2,
+                          spreadRadius: 1,
+                          offset: Offset(1, 2)
+                        )]
+                      ),
+                      child: Center(
+                        child: Text('TryME',style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
                       ),
                     ),
                   ),

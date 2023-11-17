@@ -26,7 +26,12 @@ String? botResponse;
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      appBar: AppBar(),
+      appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: Colors.white
+        ),
+        backgroundColor: Colors.black45,
+      ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(

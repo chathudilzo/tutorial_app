@@ -45,11 +45,19 @@ dependencies:
   image_picker:
   flutter_tts: 
   chat_gpt_sdk: ^2.2.5
+  giffy_dialog: ^2.0.0+2
+  loading_animation_widget: ^1.2.0+4
+  flutter_launcher_icons:
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/logo.jpeg"
+  min_sdk_android: 21 # android min sdk min:16, default 21
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
@@ -72,6 +80,8 @@ flutter:
   assets:
     - assets/
     - assets/stypes/
+
+  
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:tutorial_app/components/quiz_box.dart';
 import 'package:tutorial_app/controllers/tutorial_controller.dart';
 
@@ -33,11 +34,26 @@ class _QuizPageState extends State<QuizPage> {
           (){
             if(tutorialController.isLoading.value){
               return Center(
-                child: CircularProgressIndicator(),
+                child: LoadingAnimationWidget.waveDots(
+                  color: Colors.red,
+                  size: 40
+                ),
               );
             }else if(tutorialController.Data.isEmpty){
               return Center(
-                child: Text('No Quizes Available'),
+                child: Column(
+                  children: [
+                    SizedBox(height: 250,),
+                    Container(
+                      height: 150,
+                      decoration: BoxDecoration(
+                      
+                        image: DecorationImage(image: NetworkImage('https://media.tenor.com/YoAqt_jAr-UAAAAi/sad-broken-heart.gif'),fit: BoxFit.contain)
+                      ),
+                    ),
+                    Text('No Quizes Available',style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),),
+                  ],
+                ),
               );
             }else{
               return Column(

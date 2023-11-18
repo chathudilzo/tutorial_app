@@ -2,6 +2,7 @@ import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:giffy_dialog/giffy_dialog.dart';
 import 'package:tutorial_app/controllers/user_controller.dart';
 
 import '../controllers/tutorial_controller.dart';
@@ -87,16 +88,31 @@ setState(() {
   
 });
     showDialog(context:context,builder:(context) {
-      return AlertDialog(
-        title: Text('Answer Correct'),
-        content: 
-            Container(
+      return GiffyDialog.image(
+        Image.network('https://media.tenor.com/qg8K8VOmzJwAAAAi/party-popper-confetti.gif',height: 200,fit: BoxFit.cover,
+        errorBuilder: (context, error, stackTrace) {
+          return Container(
               width: 150,
               height: 150,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(100),
                 image: DecorationImage(image: AssetImage('assets/correct.jpeg'),fit: BoxFit.cover)
               ),
+              
+            );
+        },
+        ),
+
+        title: Text('Answer Correct'),
+        content: 
+            Container(
+              //width: 150,
+              //height: 150,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(100),
+                //image: DecorationImage(image: AssetImage('assets/correct.jpeg'),fit: BoxFit.cover)
+              ),
+              child: Text('Congratulations! Your are Correct.'),
             )
         ,
         actions: [
@@ -110,9 +126,13 @@ setState(() {
     },);
   }else{
     showDialog(context: context, builder:(context){
-      return AlertDialog(
+      return GiffyDialog.image(
+        Image.network('https://media.tenor.com/oxG6Jka0LPUAAAAi/machiko-rabbit.gif',height: 200,fit: BoxFit.cover,
+        errorBuilder: (context, error, stackTrace) {
+          return Container();
+        },),
         title: Text('Incorrect Answer'),
-        content: Text('Try again'),
+        content: Text('Oooops!'),
         actions: [
           TextButton(onPressed:() {
             Navigator.of(context).pop();
@@ -138,7 +158,7 @@ setState(() {
     
           )],
           borderRadius: BorderRadius.circular(10),
-          gradient: LinearGradient(colors: [Color.fromARGB(255, 45, 49, 51),Color.fromARGB(255, 93, 96, 99)])
+          //linear LinearGradient(colors: [Color.fromARGB(255, 45, 49, 51),Color.fromARGB(255, 93, 96, 99)])
         ),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -239,8 +259,21 @@ setState(() {
         ),
       ),
     ):Center(
-      child: Container(
-        child: Text('You have completed all the quizes in this subject!'),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          height: 350,
+          decoration: BoxDecoration(
+            image: DecorationImage(image: NetworkImage('https://media.tenor.com/eaTvhJLzFBsAAAAi/%E3%82%8F%E3%83%BC%E3%81%84-%E5%AC%89%E3%81%97%E3%81%84%E3%81%AA.gif',
+            
+            ),fit: BoxFit.cover)
+          ),
+          child: Text(
+            textAlign:TextAlign.center,
+            'You have completed all the quizes in this subject!',style: TextStyle(
+            
+            fontSize: 25,fontWeight: FontWeight.bold),),
+        ),
       ),
     );
   }

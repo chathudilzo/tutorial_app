@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:tutorial_app/controllers/bot_controller.dart';
 
 class TryMe extends StatefulWidget {
@@ -193,21 +194,27 @@ String? botResponse;
              }
             ),
             GestureDetector(
-              onTap: () {
-                setState(() {
-                  botController.getGPT(selectedType.toString());
-                });
-              },
-              child: Container(
-                width: 70,
-                height: 70,
-                decoration: BoxDecoration(
-                  color: Color.fromARGB(143, 13, 158, 202),
-                  borderRadius: BorderRadius.circular(50)
+                onTap: () {
+                  setState(() {
+                    botController.getGPT(selectedType.toString());
+                  });
+                },
+                child: Container(
+                  width: 70,
+                  height: 70,
+                  decoration: BoxDecoration(
+                    color: Color.fromARGB(143, 13, 158, 202),
+                    borderRadius: BorderRadius.circular(50)
+                  ),
+                  child:Obx(() => !botController.isLoading.value? Center(child: Text('Go',style: TextStyle(color: Colors.white,fontSize: 25,fontWeight: FontWeight.bold),))
+                  :LoadingAnimationWidget.inkDrop(
+                    color: Colors.white,
+                    size: 40
+                    
+                  ),)
                 ),
-                child: Center(child: Text('Go',style: TextStyle(color: Colors.white,fontSize: 25,fontWeight: FontWeight.bold),)),
               ),
-            ),
+            
           ],
         ),
         

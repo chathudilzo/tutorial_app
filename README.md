@@ -1,7 +1,7 @@
 # Educational App
 
 This educational app provides a platform for students to access quizzes, stories, tutorials, and AI-generated content for various subjects. The app also includes an admin page for managing content and user data.
-<img src="https://github.com/chathudilzo/tutorial_app/assets/93638679/d9dc894c-8d8a-41ea-a8f7-d00e3179dc35" width="200" height="200">
+<img src="https://github.com/chathudilzo/tutorial_app/assets/93638679/d9dc894c-8d8a-41ea-a8f7-d00e3179dc35" width="200" height="600">
 <img src="https://github.com/chathudilzo/tutorial_app/assets/93638679/6da9eb5f-4786-4d9e-8b4e-6556424e1e6d" width="200" height="200">
 <img src="https://github.com/chathudilzo/tutorial_app/assets/93638679/cb52c46a-96ac-4d96-acaa-9ab66dd4caa7" width="200" height="200">
 <img src="https://github.com/chathudilzo/tutorial_app/assets/93638679/fcf69332-1119-4827-9559-85efeedd8224" width="200" height="200">

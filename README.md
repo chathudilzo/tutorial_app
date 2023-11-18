@@ -1,16 +1,33 @@
-# tutorial_app
+# Educational App
 
-A new Flutter project.
+This educational app provides a platform for students to access quizzes, stories, tutorials, and AI-generated content for various subjects. The app also includes an admin page for managing content and user data.
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+## Features
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- **Quiz Page:**
+  - Access quizzes for different subjects.
+  - Interactive quiz boxes for a user-friendly experience.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- **Storytelling Page:**
+  - Enjoy stories with voice reading capabilities.
+
+- **Tutorial Page:**
+  - Explore tutorials for different subjects.
+
+- **AI Page:**
+  - Generate MCQs, essays, and get definitions on various lessons.
+  - Integration with ChatGPT for AI-generated content.
+
+- **Admin Page:**
+  - Manage stories, lessons, tutorials, and user data.
+  - Authentication via Google Sign-In and email/password sign-in.
+  - Utilizes GetX controllers for efficient state management.
+
+## Installation
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/your-username/educational-app.git
